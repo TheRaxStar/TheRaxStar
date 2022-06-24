@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block content %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h3 class="mt-4">Dashboard</h3>
+                        <!--ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol-->
+
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-white mb-4 overflow-hidden bg-success" style="background-image: url('/static/image/cards.jpg');">
+                                    <div class="card-body">Active Ticker</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">20</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-white mb-4 overflow-hidden bg-info" style="background-image: url('/static/image/cards.jpg');">
+                                    <div class="card-body">Pending Ticker</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">8</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-white mb-4 overflow-hidden bg-primary" style="background-image: url('/static/image/cards.jpg');">
+                                    <div class="card-body">Total Ticker</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">18</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-white mb-4 overflow-hidden bg-secondary" style="background-image: url('/static/image/cards.jpg');">
+                                    <div class="card-body">Not Schedule Ticker</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">12</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Active Ticker
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table">
+                                    <thead class="bg-dark text-white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Schedule on</th>
+                                        <th scope="col">Start</th>
+                                        <th scope="col">end</th>
+                                        <th scope="col">Ticker Type</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">501</th>
+                                        <td>Wing A</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Static Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">502</th>
+                                        <td>502, 365, 458</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Primary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">503</th>
+                                        <td>All</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>secondary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">504</th>
+                                        <td>Wing B</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Animetion Ticker</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>  
+                                  <a class="" href="{% url 'active'%}" role="button">more</a>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Pending Ticker
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table">
+                                    <thead class="bg-dark text-white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Schedule on</th>
+                                        <th scope="col">Start</th>
+                                        <th scope="col">end</th>
+                                        <th scope="col">Ticker Type</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">501</th>
+                                        <td>Wing A</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Static Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">502</th>
+                                        <td>502, 365, 458</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Primary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">503</th>
+                                        <td>All</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>secondary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">504</th>
+                                        <td>Wing B</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Animetion Ticker</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>  
+                                  <a class="" href="{% url 'pending'%}" role="button">more</a>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                History Ticker
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table">
+                                    <thead class="bg-dark text-white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Schedule on</th>
+                                        <th scope="col">Start</th>
+                                        <th scope="col">end</th>
+                                        <th scope="col">Ticker Type</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">501</th>
+                                        <td>Wing A</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Static Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">502</th>
+                                        <td>502, 365, 458</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Primary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">503</th>
+                                        <td>All</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>secondary Ticker</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">504</th>
+                                        <td>Wing B</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Sat 07/04/2022 10:35</td>
+                                        <td>Animetion Ticker</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>  
+                                  <a class="" href="{% url 'history'%}" role="history">more</a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+{% endblock %}
