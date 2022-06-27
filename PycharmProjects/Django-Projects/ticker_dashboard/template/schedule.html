@@ -12,7 +12,7 @@
                         
                             <div class="m-1" id="">
                                 <div id="">
-                                    <div class="m-3 h2">Schedule Ticker: <span class="text-danger">235</span></div>
+                                    <div class="m-3 h2">Ticker ID : <span class="text-danger" name="ticker_id_field">{{ticker_id}}</span></div>
                                     <div class="row m-3">
                                         
                                         <div class="col-md-4">
@@ -34,7 +34,7 @@
                                         <div class="col-md-4">
                                             <label>Rooms</label>
                                             <select name="roomselection" multiple id="roomselection" class="form-select mb-3 mb-md-0 p-3 selectpicker" aria-label="Default select example">
-                                                {% for items in rooms %}
+                                                {% for items in keys %}
                                                 <option value="{{items}}">{{items}}</option>
                                                 {% endfor %}
                                             </select>
@@ -72,19 +72,19 @@
                                         <div class="col-md-4">
                                             <label>Start Date | Time</label>
                                             <div class="form-group form-floating">
-                                                <input type="datetime-local" class="form-control" id="startDate" name="startDate" placeholder="Enter Date">
+                                                <input type="datetime-local" class="form-control" id="startDate" name="start_date" placeholder="Enter Date">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label>End Date | Time</label>
                                             <div class="form-group form-floating">
-                                                <input type="datetime-local" class="form-control" id="endDate" name="endDate" placeholder="Enter Date">
+                                                <input type="datetime-local" class="form-control" id="endDate" name="end_date" placeholder="Enter Date">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label>Display Frequency | Display in Every</label>
                                             <select name="delay" id="" onchange=foeventEnabler(this.id) class="form-select mb-3 mb-md-0 p-3" aria-label="Default select example">
-                                                {% for items in frequency %}
+                                                {% for items in routine %}
                                                 <option>{{items}}</option>
                                                 {% endfor %}
                                             </select>

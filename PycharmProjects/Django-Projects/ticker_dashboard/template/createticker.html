@@ -8,16 +8,20 @@
              <div class="m-2">
                 <div class="border border-primary rounded bg-light">
                     <div class="btn-group m-2 btn-group-lg d-flex justify-content-center" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-dark" id='staticticker' onclick=fosubmit(this.id)>Static Ticker</button>
+                        {% comment %} <button type="button" class="btn btn-dark" id='staticticker' onclick=fosubmit(this.id)>Static Ticker</button>
                         <button type="button" class="btn btn-dark" id='primaryticker' onclick=fosubmit(this.id)>Primary Ticker</button>
                         <button type="button" class="btn btn-dark" id='secondaryticker' onclick=fosubmit(this.id)>Secondary Ticker</button>
                         <button type="button" class="btn btn-dark" id='animationticker' onclick=fosubmit(this.id)>Animation Ticker</button>
-                        <button type="button" class="btn btn-danger" id='emergencyticker' onclick=fosubmit(this.id)>Emergency Ticker</button>
+                        <button type="button" class="btn btn-danger" id='emergencyticker' onclick=fosubmit(this.id)>Emergency Ticker</button> {% endcomment %}
+
+                        <button type="button" class="btn btn-dark" id="scrollingticker" onclick=fosubmit(this.id)>Scrolling Ticker</button>
+                        <button type="button" class="btn btn-dark" id="multimediaticker" onclick=fosubmit(this.id)>Multi-media Ticker</button>
+                        <button type="button" class="btn btn-danger" id="emergencyticker" onclick=fosubmit(this.id)>Emergency Ticker</button>
                     </div>
                     <form method="POST" class=" border rounded m-2" id="mainform" enctype="multipart/form-data">
                         {% csrf_token %}
                             <!-- Static ticker form-->
-                            <div class="m-1 " id="static_form">
+                            <div class="m-1" id="static_form">
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" name="static_ticker_enabler" type="checkbox" value="" id="static_form_data" onclick="foeventEnabler(this.id);fobuttonenabler();">
                                     <label class="form-check-label" for="flexCheckDefault">

@@ -1,13 +1,15 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as user_login
-from ticker_management.gadget import datagetter,schedulingdata
+from ticker_management.gadget import datagetter,filterData, schedulingdata
 from django.http import HttpResponse
 from django_celery_beat.models import PeriodicTask,CrontabSchedule
 from datetime import datetime
+from ticker_management.models import TickerDetails
 from ticker_management.tasks import test_fun
+from django.http import HttpResponsePermanentRedirect
+
 
 @login_required
 def index(request):
@@ -92,7 +94,8 @@ def createticker(request):
             request.POST.get('animation_ticker_enabler')=='' or 
             request.POST.get('emergency_ticker_enabler')==''
            ):
-            return render(request, 'preview.html',datagetter(request))
+            return redirect(preview,id=datagetter(request).get('ticker_id'))
+            
         else:
             return render(request, 'createticker.html', data)
     else:
@@ -100,9 +103,19 @@ def createticker(request):
 
 @login_required
 def active(request):
-    return render(request, 'active.html') 
 
-@login_required
+    t=TickerDetails.objects.all().filter(is_active=1).values()
+
+    tickerdatalist=list()
+    for a in t:
+        tickerdatalist.append(a)
+    
+    tickerdatalist=sorted(tickerdatalist,key=lambda item: item['ticker_id'],reverse=True)
+
+    tmp={'tickerdatalist':tickerdatalist}
+
+    return render(request, 'active.html',tmp)
+
 def pending(request):
     return render(request, 'pending.html')   
 
@@ -111,34 +124,95 @@ def history(request):
     return render(request, 'history.html') 
 
 @login_required
-def preview(request):
-    return render(request, 'preview.html')
+def preview(request,id):
+    if request.method == 'POST':
+        print(request.POST.get('ticker_id_field'))
+        id=request.POST.get('ticker_id_field')
+
+        # print(roomconfig.get('ticker_id','no data found'))
+
+        return redirect(schedule,id=id)
+
+        # return render(request, 'schedule.html',roomconfig)
+    else:
+        t=TickerDetails.objects.filter(ticker_id=int(id)).values()
+        return render(request, 'preview.html',t.get())
         
 @login_required
-def schedule(request):
+def schedule(request,id):
 
-    now = datetime.now() # current date and time
+    if request.method == 'POST':
+        
+        a=request.POST.get('wingselection')
+        b=request.POST.get('floorselection')
+        c=request.POST.get('roomselection')
 
-    year = now.strftime("%Y")
+        if (request.POST.get('scheduleenabler')!=None):
+            print('Inside enabler')
+        else:
+            print('Outside enabler')
+        
+        start_date=request.POST.get('start_date')
+        end_date=request.POST.get('end_date')
 
-    month = now.strftime("%m")
+        created_for=str(a)+str(b)+str(c)
+        
+        t=TickerDetails.objects.filter(ticker_id=int(id)).values()
 
-    day = now.strftime("%d")
+        t.update(ticker_start_time=start_date,ticker_end_time=end_date,created_for=created_for)
 
-    hour = int(now.strftime("%H"))
+        return redirect('/')
 
-    minute = int(now.strftime("%M"))+2
+    else:
+        roomconfig=filterData('resources/resourcexml')
+        roomconfig['ticker_id']=id
+        frequency = [
+            '15 minutes', 
+            '30 minutes', 
+            '45 minutes', 
+            '1 hour', 
+            '75 minutes', 
+            '90 minutes', 
+            '105 minutes', 
+            '2 hour', 
+            '3 hour',
+            '4 hour',  
+            '5 hour',  
+            '6 hour',  
+            '7 hour',  
+            '8 hour',
+            '12 hour',
+            '24 hour'  
+            ]
 
-    if minute>=60:
-        hour+=minute%60
-        minute=minute/60
+        days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
-    schedule,created=CrontabSchedule.objects.get_or_create(month_of_year=month,day_of_month=day,hour=hour,minute=minute)
-    task=PeriodicTask.objects.create(crontab=schedule,task='ticker_management.tasks.test_fun1',name='trying_to_make_same'+str(13))
-    return HttpResponse('day:{},month:{},{}:{}'.format(day,month,hour,minute))
+        roomconfig['routine']=frequency
+        roomconfig['routine_days']=days
+
+        return render(request, 'schedule.html',roomconfig)
+
+    # now = datetime.now() # current date and time
+
+    # year = now.strftime("%Y")
+
+    # month = now.strftime("%m")
+
+    # day = now.strftime("%d")
+
+    # hour = int(now.strftime("%H"))
+
+    # minute = int(now.strftime("%M"))+2
+
+    # if minute>=60:
+    #     hour+=minute%60
+    #     minute=minute/60
+
+    # schedule,created=CrontabSchedule.objects.get_or_create(month_of_year=month,day_of_month=day,hour=hour,minute=minute)
+    # task=PeriodicTask.objects.create(crontab=schedule,task='ticker_management.tasks.test_fun',name='trying_to_make_same'+str(5))
+    # return HttpResponse('day:{},month:{},{}:{}'.format(day,month,hour,minute))
 
     # print(request.POST.get('delay'))
-    # return render(request, 'schedule.html',schedulingdata())
 
 def login(request):
     if request.method == "POST":

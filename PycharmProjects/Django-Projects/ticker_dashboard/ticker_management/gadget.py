@@ -4,6 +4,7 @@ import time
 import os
 from .models import TickerDetails
 from django.core.files.storage import FileSystemStorage
+import xml.etree.ElementTree
 
 CONFIG_DATA={
     "static_ticker_condition":False,
@@ -16,12 +17,9 @@ CONFIG_DATA={
 
 def FileUploader(request,ticker_db_data):
     
-    print("ID")
     ticker_id=ticker_db_data.get('ticker_id',-1)
-    print("1")
+    
     temp=ticker_db_data.get('ticker_json',None)
-    print("2")
-
     ak=temp
 
     ticker_json=json.loads(temp)
@@ -79,8 +77,6 @@ def FileUploader(request,ticker_db_data):
         ticker_json['moving_ticker_logo_name']=filename
     
     xyz=json.dumps(ticker_json, indent=3)
-    print("Old:{0}\nNew:{1}".format(ak,xyz))
-    print(ticker_id,xyz)
 
     return xyz
 
@@ -292,23 +288,14 @@ def datagetter(request):
 
         data_saver(tickertype,xyz)
 
-        print("ID")
-
         t=TickerDetails.objects.filter(ticker_type=tickertype,ticker_json=xyz).values()
 
-        print(t.get(),type(t))
-
         ticker_json=FileUploader(request,t.get())
-
-        print("Exce[ptioc oic")
 
         try:
             t.update(ticker_json=ticker_json)
         except TickerDetails.DoesNotExist:
             print('Unable to update')
-
-        print("ID")
-
 
         t=TickerDetails.objects.filter(ticker_type=tickertype,ticker_json=ticker_json).values()
 
@@ -331,7 +318,11 @@ def data_saver(tickertype,jsondata):
     tickerobj.save()
 
 def schedulingdata():
+
+
     pass
+
+
     #Rundeck data
 
 
@@ -383,3 +374,35 @@ def schedulingdata():
 #     # print(scheduledata)
 #     return scheduledata
 
+
+
+def filterData(file):
+
+    roomType = {'All'}
+    floor = {'All'}
+    key = ['All']
+
+    document = xml.etree.ElementTree.parse(file).getroot()
+
+    for item in document.findall('node'):
+        if item.get('room_type') != None:
+            roomType.add(item.get('room_type'))
+
+    a=sorted(roomType)
+
+    roomTypeValue = 'All'#input('Choice Room Type : ')
+    for item in document.findall('node'):
+        if (roomTypeValue == 'All' or item.get('room_type') == roomTypeValue) and item.get('room_type') != None:
+            floor.add(item.get('floor'))
+    b=sorted(floor)
+
+    floorValue = 'All'#input('Choice Floor : ')
+    for item in document.findall('node'):
+        if (floorValue == 'All' or item.get('floor') == floorValue) and item.get('floor') != None:
+            key.append(item.get('key_no'))
+    c=sorted(key)
+
+    wings=list()
+    wings.append('All')
+
+    return {'wings':wings,'roomtype':a,'floor':b,'keys':c}

@@ -18,7 +18,7 @@
                                             <th>End</th>
                                             <th>Ticker</th>
                                             <th>Schedule on</th>
-                                            <th>Status</th>
+                                            <th>Active</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -28,10 +28,30 @@
                                             <th>End</th>
                                             <th>Ticker</th>
                                             <th>Schedule on</th>
-                                            <th>Status</th>
+                                            <th>Active</th>
                                         </tr>
                                     </tfoot>
+
                                     <tbody>
+                                    {% for tickerdata in tickerdatalist %}
+                                    <tr>
+                                        <td>{{tickerdata.ticker_id}}</td>
+                                        <td>{{tickerdata.ticker_start_time}}</td>
+                                        <td>{{tickerdata.ticker_end_time}}</td>
+                                        <td>{{tickerdata.ticker_end_time}}</td>
+                                        <td>{{tickerdata.ticker_end_time}}</td>
+                                        <td>
+                                            <i class="fas fa-eye"></i>
+                                            <i class="fas fa-pen-alt"></i>
+                                            <i class="fas fa-trash"></i>
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </tbody>
+
+
+                                    {% comment %} <tbody>
                                         <tr>
                                             <td>507</td>
                                             <td>Sat 07/04/2022 10:35</td>
@@ -2392,7 +2412,7 @@
                                             <td>Wing A</td>
                                             <td>online</td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> {% endcomment %}
                                 </table>
                             </div>
                         </div>
