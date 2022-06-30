@@ -10,7 +10,7 @@ CONFIG_DATA={
     "static_ticker_condition":False,
     "main_ticker_condition":False,
     "moving_ticker_condition":False,
-    "secondary_ticker_enabler":False,
+    "optional_ticker_condition":False,
     'emergency_ticker_condition':False,
     "time_interval":0
     }

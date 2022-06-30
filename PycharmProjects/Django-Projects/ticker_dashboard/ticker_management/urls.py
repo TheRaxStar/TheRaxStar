@@ -1,8 +1,5 @@
 from . import views
 from django.urls import path
-from django.contrib import admin
-from django.views.generic import CreateView
-from django.contrib.messages.views import SuccessMessageMixin
 
 urlpatterns = [
     path('', views.index, name = 'index'),

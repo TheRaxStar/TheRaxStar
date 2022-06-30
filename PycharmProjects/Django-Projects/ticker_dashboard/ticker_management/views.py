@@ -6,14 +6,23 @@ from ticker_management.gadget import datagetter,filterData, schedulingdata
 from django.http import HttpResponse
 from django_celery_beat.models import PeriodicTask,CrontabSchedule
 from datetime import datetime
-from ticker_management.models import TickerDetails
+from ticker_management.models import TickerDetails,TickerHistory
 from ticker_management.tasks import test_fun
-from django.http import HttpResponsePermanentRedirect
 
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+
+    active_ticker=TickerDetails.objects.all().filter(is_active=1)
+    total_ticker=TickerHistory.objects.all()
+
+    ticker_count={
+        'active':len(active_ticker),
+        'pending':8,
+        'total':len(total_ticker)+len(active_ticker)
+    }
+
+    return render(request, 'index.html',ticker_count)
 
 @login_required
 def createticker(request):
@@ -83,7 +92,13 @@ def createticker(request):
                 'Active Shooting',
                 'General Evacuation',
                 'Custom'
-                ]
+                ],
+
+            'priority':[
+                'High',
+                'Medium',
+                'Low'
+            ]
         }
     
     if request.method == 'POST':
@@ -126,7 +141,7 @@ def history(request):
 @login_required
 def preview(request,id):
     if request.method == 'POST':
-        print(request.POST.get('ticker_id_field'))
+        # print(request.POST.get('ticker_id_field'))
         id=request.POST.get('ticker_id_field')
 
         # print(roomconfig.get('ticker_id','no data found'))
@@ -155,7 +170,7 @@ def schedule(request,id):
         start_date=request.POST.get('start_date')
         end_date=request.POST.get('end_date')
 
-        created_for=str(a)+str(b)+str(c)
+        created_for=str(a)+' '+str(b)+' '+str(c)
         
         t=TickerDetails.objects.filter(ticker_id=int(id)).values()
 
